@@ -15,7 +15,7 @@ function App() {
     <AuthProvider>
       <ChakraProvider theme={theme}>
         <CSSReset />
-        <Flex minH="100vh" maxW="100%">
+        <Flex minH="100vh" maxW="100%" direction="column">
           <Routes />
         </Flex>
       </ChakraProvider>

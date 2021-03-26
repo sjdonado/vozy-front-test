@@ -36,9 +36,10 @@ function Login() {
     if (!cachedData) {
       data = await fetchRandomUsers();
     }
+    const user = data[Math.round(Math.random() * 5)];
     setExampleUser({
-      username: data[0].login.username,
-      password: data[0].login.password,
+      username: user.login.username,
+      password: user.login.password,
     });
   };
 
@@ -62,7 +63,7 @@ function Login() {
   };
 
   return (
-    <Flex flex="1" direction="column">
+    <>
       <Flex justify="flex-end">
         <ColorModeSwitcher />
       </Flex>
@@ -130,7 +131,7 @@ function Login() {
           </Box>
         ) : <CircularProgress margin="6" isIndeterminate />}
       </Flex>
-    </Flex>
+    </>
   );
 }
 

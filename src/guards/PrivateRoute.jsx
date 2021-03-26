@@ -7,10 +7,10 @@ import { PRIVATE_REDIRECT } from '../utils/Constants';
 
 function PrivateRoute({ children }) {
   const { isAuth } = useContext(AuthContext);
-  if (!isAuth()) {
-    return <Redirect to={PRIVATE_REDIRECT} />;
+  if (isAuth()) {
+    return children;
   }
-  return children;
+  return <Redirect to={PRIVATE_REDIRECT} />;
 }
 
 PrivateRoute.propTypes = {
