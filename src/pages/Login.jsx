@@ -37,10 +37,12 @@ function Login() {
       data = await fetchRandomUsers();
     }
     const user = data[Math.round(Math.random() * 5)];
-    setExampleUser({
-      username: user.login.username,
-      password: user.login.password,
-    });
+    if (user) {
+      setExampleUser({
+        username: user.login.username,
+        password: user.login.password,
+      });
+    }
   };
 
   useEffect(() => {
@@ -125,7 +127,7 @@ function Login() {
                 borderRadius="4"
                 marginTop="3"
               >
-                Ingresar
+                Login
               </Button>
             </FormControl>
           </Box>
