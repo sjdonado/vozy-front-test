@@ -24,7 +24,7 @@ function RecentShowsCard({ fullName, recentShows }) {
           {fullName}
         </Heading>
       </Flex>
-      <Flex>
+      <Flex justify="center">
         {recentShows.map(({ id, name, image }) => (
           <Box key={id} margin="2">
             <Image src={image.medium} alt={name} />

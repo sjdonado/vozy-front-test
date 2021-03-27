@@ -9,6 +9,7 @@ import {
   CloseButton,
   Heading,
   useBreakpointValue,
+  useColorMode,
 } from '@chakra-ui/react';
 
 import { AuthContext } from '../context/AuthProvider';
@@ -34,7 +35,16 @@ const reverseAnimation = keyframes`
   }
 `;
 
+const responsiveStyle = (colorMode) => ({
+  position: 'absolute',
+  zIndex: '100',
+  background: colorMode === 'light' ? 'white' : '#1A202C',
+  height: '100%',
+});
+
 function Drawer() {
+  const { colorMode } = useColorMode();
+
   const { removeAuthToken } = useContext(AuthContext);
   const { isDrawerOpen, setIsDrawerOpen } = useContext(DrawerContext);
 
@@ -59,17 +69,23 @@ function Drawer() {
     setIsLogoutAlertOpen(true);
   };
 
+  const boxStyle = {
+    overflowX: 'hidden',
+    animation: isDrawerOpen
+      ? `${forwardAnimation} 0.25s linear forwards`
+      : `${reverseAnimation} 0.25s linear forwards`,
+  };
+
+  if (variant === false) {
+    Object.assign(boxStyle, responsiveStyle(colorMode));
+  }
+
   return (
     <>
       <Box
         borderRight="1px"
         borderColor="gray.300"
-        css={{
-          overflowX: 'hidden',
-          animation: isDrawerOpen
-            ? `${forwardAnimation} 0.25s linear forwards`
-            : `${reverseAnimation} 0.25s linear forwards`,
-        }}
+        css={boxStyle}
       >
         {!variant && (
           <CloseButton

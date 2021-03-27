@@ -20,7 +20,7 @@ function App() {
       <CSSReset />
       <AuthProvider>
         <DrawerProvider>
-          <Flex minH="100vh" maxW="100%" direction="column">
+          <Flex minH="100vh" direction="column">
             <Routes />
             <Footer />
           </Flex>
