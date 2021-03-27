@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 
 import {
@@ -10,14 +10,15 @@ import {
 
 import { GiHamburgerMenu } from 'react-icons/gi';
 
+import { DrawerContext } from '../context/DrawerProvider';
 import ColorModeSwitcher from './ColorModeSwitcher';
 
 function Navbar({
   fullName,
   thumbnail,
-  isDrawerOpen,
-  setIsDrawerOpen,
 }) {
+  const { isDrawerOpen, setIsDrawerOpen } = useContext(DrawerContext);
+
   return (
     <Flex
       flex="1"
@@ -52,8 +53,6 @@ function Navbar({
 Navbar.propTypes = {
   fullName: PropTypes.string.isRequired,
   thumbnail: PropTypes.string.isRequired,
-  isDrawerOpen: PropTypes.bool.isRequired,
-  setIsDrawerOpen: PropTypes.func.isRequired,
 };
 
 export default Navbar;

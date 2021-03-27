@@ -8,18 +8,24 @@ import {
 } from '@chakra-ui/react';
 
 import AuthProvider from './context/AuthProvider';
+import DrawerProvider from './context/DrawerProvider';
+
 import Routes from './Routes';
+import Footer from './components/Footer';
 
 function App() {
   return (
-    <AuthProvider>
-      <ChakraProvider theme={theme}>
-        <CSSReset />
-        <Flex minH="100vh" maxW="100%" direction="column">
-          <Routes />
-        </Flex>
-      </ChakraProvider>
-    </AuthProvider>
+    <ChakraProvider theme={theme}>
+      <CSSReset />
+      <AuthProvider>
+        <DrawerProvider>
+          <Flex minH="100vh" maxW="100%" direction="column">
+            <Routes />
+            <Footer />
+          </Flex>
+        </DrawerProvider>
+      </AuthProvider>
+    </ChakraProvider>
   );
 }
 

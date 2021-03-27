@@ -1,5 +1,4 @@
-import React, { useContext, useState } from 'react';
-import PropTypes from 'prop-types';
+import React, { useContext, useEffect, useState } from 'react';
 
 import {
   Box,
@@ -8,73 +7,97 @@ import {
   keyframes,
   Button,
   CloseButton,
+  Heading,
   useBreakpointValue,
 } from '@chakra-ui/react';
 
 import { AuthContext } from '../context/AuthProvider';
+import { DrawerContext } from '../context/DrawerProvider';
+
+import CustomAlertDialog from './CustomAlertDialog';
 
 const forwardAnimation = keyframes`
   from {
     width: 0;
   }
   to {
-    width: 250px;
+    width: 350px;
   }
 `;
 
 const reverseAnimation = keyframes`
   from {
-    width: 250px;
+    width: 350px;
   }
   to {
     width: 0;
   }
 `;
 
-function Drawer({ isOpen, setIsOpen }) {
+function Drawer() {
   const { removeAuthToken } = useContext(AuthContext);
+  const { isDrawerOpen, setIsDrawerOpen } = useContext(DrawerContext);
+
+  const [isLogoutAlertOpen, setIsLogoutAlertOpen] = useState(false);
 
   const variant = useBreakpointValue({
-    base: false, sm: true, md: true, lg: true,
+    base: false, sm: false, md: false, lg: true,
   });
-
   const [lastVariant, setLastVariant] = useState(variant);
 
-  if (isOpen === undefined && variant !== undefined) {
-    setIsOpen(variant);
-  }
+  useEffect(() => {
+    if (isDrawerOpen === undefined && variant !== undefined) {
+      setIsDrawerOpen(variant);
+    }
+    if (variant !== lastVariant) {
+      setIsDrawerOpen(variant);
+      setLastVariant(variant);
+    }
+  }, [isDrawerOpen, variant, setIsDrawerOpen, setLastVariant]);
 
-  if (variant !== lastVariant) {
-    setIsOpen(variant);
-    setLastVariant(variant);
-  }
+  const handleLogout = () => {
+    setIsLogoutAlertOpen(true);
+  };
 
   return (
-    <Box
-      borderRight="1px"
-      borderColor="gray.300"
-      css={{
-        overflowX: 'hidden',
-        animation: isOpen
-          ? `${forwardAnimation} 0.25s linear forwards`
-          : `${reverseAnimation} 0.25s linear forwards`,
-      }}
-    >
-      {!variant && <CloseButton marginTop="5" marginRight="4" float="right" size="md" onClick={() => setIsOpen(false)} />}
-      <List spacing={8} margin="8" marginTop="40" minW="300px">
-        <ListItem>Item One</ListItem>
-        <ListItem>Item Two</ListItem>
-        <ListItem>Item Three</ListItem>
-        <ListItem>Item Four</ListItem>
-        <ListItem><Button onClick={removeAuthToken}>Logout</Button></ListItem>
-      </List>
-    </Box>
+    <>
+      <Box
+        borderRight="1px"
+        borderColor="gray.300"
+        css={{
+          overflowX: 'hidden',
+          animation: isDrawerOpen
+            ? `${forwardAnimation} 0.25s linear forwards`
+            : `${reverseAnimation} 0.25s linear forwards`,
+        }}
+      >
+        {!variant && (
+          <CloseButton
+            marginTop="5"
+            marginRight="4"
+            float="right"
+            size="md"
+            onClick={() => setIsDrawerOpen(false)}
+          />
+        )}
+        <List spacing={8} marginTop="40" minW="300px" textAlign="center">
+          <Heading>TV search</Heading>
+          <ListItem>Item One</ListItem>
+          <ListItem>Item Two</ListItem>
+          <ListItem>Item Three</ListItem>
+          <ListItem>Item Four</ListItem>
+          <ListItem><Button onClick={handleLogout}>Logout</Button></ListItem>
+        </List>
+      </Box>
+      <CustomAlertDialog
+        title="Logout"
+        description="Are you sure? You can't undo this action afterwards."
+        isOpen={isLogoutAlertOpen}
+        setIsOpen={setIsLogoutAlertOpen}
+        callback={removeAuthToken}
+      />
+    </>
   );
 }
-
-Drawer.propTypes = {
-  isOpen: PropTypes.bool.isRequired,
-  setIsOpen: PropTypes.func.isRequired,
-};
 
 export default Drawer;
