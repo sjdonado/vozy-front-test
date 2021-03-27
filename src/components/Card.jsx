@@ -77,7 +77,7 @@ function Card({
       >
         <Heading fontSize={fontSize} marginBottom="2">{title}</Heading>
         <Text noOfLines={1} fontSize="14px" marginBottom="2">{genres.join(' · ')}</Text>
-        {summary && <Text noOfLines={summaryLines} fontSize="14px" margin="4">{summary}</Text>}
+        {summary && <Text noOfLines={summaryLines} fontSize="14px" margin="4">{summary.replace(/<[^>]*>?/gm, '')}</Text>}
         <Divider marginTop="2" width="100%" backgroundColor="gray.200" />
         <Link href={officialSite} target="_blank" fontSize="12px">More info</Link>
       </Flex>
@@ -88,7 +88,7 @@ function Card({
 Card.propTypes = {
   size: PropTypes.string,
   title: PropTypes.string.isRequired,
-  image: PropTypes.string.isRequired,
+  image: PropTypes.string,
   genres: PropTypes.arrayOf(PropTypes.string).isRequired,
   officialSite: PropTypes.string,
   summary: PropTypes.string,
@@ -96,6 +96,7 @@ Card.propTypes = {
 
 Card.defaultProps = {
   size: 'sm',
+  image: null,
   summary: null,
   officialSite: '',
 };

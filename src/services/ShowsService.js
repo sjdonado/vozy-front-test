@@ -31,7 +31,11 @@ export async function fetchShowsByPage(page = 0) {
   return results;
 }
 
-export async function searchShows() {
-  const data = await fetch('test').then((res) => res.json());
-  return data;
+/**
+ *
+ * @param {String} query
+ * @returns {Promise}
+ */
+export function searchShows(query) {
+  return fetch(`https://api.tvmaze.com/search/shows?q=${query}`).then((res) => res.json());
 }

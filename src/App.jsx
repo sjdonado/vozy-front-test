@@ -2,7 +2,6 @@ import * as React from 'react';
 
 import {
   ChakraProvider,
-  theme,
   CSSReset,
   Flex,
 } from '@chakra-ui/react';
@@ -13,9 +12,11 @@ import DrawerProvider from './context/DrawerProvider';
 import Routes from './Routes';
 import Footer from './components/Footer';
 
+import mainTheme from './themes/main';
+
 function App() {
   return (
-    <ChakraProvider theme={theme}>
+    <ChakraProvider theme={mainTheme}>
       <CSSReset />
       <AuthProvider>
         <DrawerProvider>
